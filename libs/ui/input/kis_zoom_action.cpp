@@ -305,7 +305,7 @@ void KisZoomAction::cursorMovedAbsolute(const QPointF &startPos, const QPointF &
 
         KisConfig cfg(true);
 
-        const qreal logDistance = std::pow(2.0, qreal(cfg.zoomHorizontal() ? -diff.x() : diff.y()) / qreal(stepCont));
+        const qreal logDistance = std::pow(2.0, qreal(d->mode == RelativeZoomModeShortcut ? diff.y() : (cfg.zoomHorizontal() ? -diff.x() : diff.y())) / qreal(stepCont));
 
         qreal newZoom = 1.0;
         if (cfg.readEntry<bool>("InvertMiddleClickZoom", false)) {
@@ -333,7 +333,7 @@ void KisZoomAction::cursorMovedAbsolute(const QPointF &startPos, const QPointF &
 
         KisConfig cfg(true);
 
-        qreal axisDiff = qreal(cfg.zoomHorizontal() ? -diff.x() : diff.y());
+        qreal axisDiff = qreal(d->mode == RelativeDiscreteZoomModeShortcut ? diff.y() : (cfg.zoomHorizontal() ? -diff.x() : diff.y()));
         qreal currentDiff = axisDiff / stepDisc - d->lastDiscreteZoomDistance;
 
         const bool zoomIn = currentDiff > 0;
